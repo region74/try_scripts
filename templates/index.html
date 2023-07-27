@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Files and Folders</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>List of Files and Folders</h1>
+    <button id="showListButton">Show List</button>
+    <div id="listContainer"></div>
+    <div id="timezoneContainer"></div>
+    <script>
+        // Функция для определения часового пояса клиента
+        function getTimezone() {
+            return Intl.DateTimeFormat().resolvedOptions().timeZone;
+        }
+
+        // Функция для обработки нажатия кнопки "Show List"
+        $("#showListButton").click(function() {
+            // Отправляем POST запрос на сервер для получения списка файлов и папок
+            $.post("/", function(data) {
+                // При получении ответа, отображаем список в блоке "listContainer"
+                $("#listContainer").html(data);
+            });
+
+            // Получаем часовой пояс клиента и выводим его в блок "timezoneContainer"
+            var timezone = getTimezone();
+            $("#timezoneContainer").html("Your timezone: " + timezone);
+        });
+    </script>
+</body>
+</html>
